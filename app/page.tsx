@@ -1,7 +1,10 @@
+import Tasks from "@/components/Tasks";
 import Image from "next/image";
 
 export default function Home() {
   return (
-    <div>Page</div>
+    <main>
+      <Tasks title="All Tasks" tasks={[]}></Tasks>
+    </main>
   );
 }
