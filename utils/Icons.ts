@@ -1,0 +1,26 @@
+export const bars:string = '<i className="fa-solid fa-bars fa-beat"></i>';
+export const arrowLeft:string = '<i className="fa-solid fa-arrow-left fa-beat"></i>';
+
+export const add:string = '<i className="fa-solid fa-plus"></i>';
+export const moon:string = '<i className="fa-solid fa-moon"></i>';
+export const search:string = '<i className="fa-solid fa-magnifying-glass"></i>';
+export const bell:string = '<i className="fa-solid fa-bell"></i>';
+export const home:string = '<i className="fa-solid fa-house"></i>';
+export const list:string = '<i className="fa-solid fa-list-check"></i>';
+export const check:string= '<i className="fa-solid fa-check"></i>';
+export const help:string = '<i className="fa-solid fa-circle-info"></i>';
+export const gear:string = '<i className="fa-solid fa-gear"></i>';
+export const login:string = '<i className="fa-solid fa-right-to-bracket"></i>';
+export const logout:string = '<i className="fa-solid fa-right-from-bracket"></i>';
+export const user:string = '<i className="fa-solid fa-user"></i>';
+export const join:string = '<i className="fa-solid fa-user-plus"></i>';
+export const heart:string = '<i className="fa-solid fa-heart"></i>';
+export const edit:string= '<i className="fa-solid fa-file-pen"></i>';
+export const users:string = '<i className="fa-solid fa-user-group"></i>';
+export const todo:string = '<i className="fa-solid fa-clipboard-list"></i>';
+export const down:string = '<i className="fa-solid fa-caret-down"></i>';
+export const trash:string = '<i className="fa-solid fa-trash"></i>';
+export const admin:string = '<i className="fa-solid fa-lock"></i>';
+export const linked:string = '<i className="fa-brands fa-linkedin"></i>';
+export const mailIcon:string = '<i className="fa-solid fa-envelope"></i>';
+export const plus:string = '<i className="fa-solid fa-plus fa-beat-fade"></i>';
