@@ -19,10 +19,11 @@ export const GlobalContext=createContext<GlobalContextProps | undefined>(undefin
 export const GlobalUpdateContext = createContext<GlobalUpdateContext | undefined>(undefined);
 
 export const GlobalProvider =({children}:Props)=>{
-    const [selectedTheme, setSelectedTheme] = useState(0);
+    const [selectedTheme, setSelectedTheme] = useState<number>(0);
 
     const theme = themes[selectedTheme];
     const [globalContextProps, useGlobalState]=useState<GlobalContextProps>({theme});
+
     
     return(
         <GlobalContext.Provider value={globalContextProps}>
