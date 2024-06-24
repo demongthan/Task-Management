@@ -1,10 +1,12 @@
-import Tasks from "@/components/Tasks";
-import Image from "next/image";
+import { Tasks } from "@/components";
+import CreateContent from "@/components/CreateContent";
+import React from "react";
 
 export default function Home() {
   return (
-    <main>
-      <Tasks title="All Tasks" tasks={[]}></Tasks>
+    <main className="w-full h-full">
+      {/* <CreateContent></CreateContent> */}
+      <Tasks title="All Tasks"></Tasks>
     </main>
   );
 }

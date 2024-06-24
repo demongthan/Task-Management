@@ -1,43 +1,81 @@
 "use client";
 
 import { GlobalContextProps, useGlobalState } from '@/context/GlobalProvider';
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components';
 import TaskItem from './TaskItem';
+import { GetAllTask } from '@/api/task-service/TaskService';
+import { ApiReponse } from '@/api/api';
+import LoadingPage from './LoadingPage';
+import parse from 'html-react-parser';
+import { add } from '@/utils/Icons';
 
 interface Props {
     title: string;
-    tasks: any[];
   }
 
-const Tasks = ({ title, tasks }: Props) => {
+const Tasks = ({ title }: Props) => {
     const {theme}=useGlobalState() as GlobalContextProps;
+
+    const [tasks, setTasks] = useState<TaskItem[]>([]);
+    const [isLoading, setLoading] = useState(false);
+
+    const allTasks = async () => {
+        setLoading(true);
+        await GetAllTask().then(res=>{
+            const responseObj:ApiReponse={
+                obj:res.data,
+                message:res.message
+            }
+  
+            if(responseObj.obj !=undefined) {
+                const result:TaskItem[]=responseObj.obj.map(({...item})=>({
+                    deadlineDate:item.DeadlineDate,
+                    description:item.Description,
+                    id: item.Id,
+                    isCompleted:item.IsCompleted,
+                    title:item.Title             
+                }))
+                setTasks(result);
+                console.log(tasks);
+                setLoading(false)
+            }
+        });
+    };
+  
+    React.useEffect(() => {
+        allTasks();
+    },[]);
 
     return (
     <TaskStyled theme={theme}>
-        
         <h1>{title}</h1>
 
-        <button className="btn-rounded" >
-        
-        </button>
+        {isLoading?(<LoadingPage></LoadingPage>):
+        (
+          <>
+            <button className="btn-rounded" >
+              yyyy
+            </button>
 
-        <div className="tasks grid">
-        {tasks.map((task) => (
-            <TaskItem
-            key={task.id}
-            title={task.title}
-            description={task.description}
-            date={task.date}
-            isCompleted={task.isCompleted}
-            id={task.id}
-            />
-        ))}
-        <button className="create-task" >
-            
-            Add New Task
-        </button>
-        </div>
+            <div className="tasks grid">
+            {tasks.map((task) => (
+                <TaskItem
+                key={task.id}
+                title={task.title}
+                description={task.description}
+                date={task.deadlineDate}
+                isCompleted={task.isCompleted}
+                id={task.id}
+                />
+            ))}
+            <button className="create-task" >
+                {parse(add)}
+                Add New Task
+            </button>
+            </div>
+          </>
+        )}
     </TaskStyled>
     );
 }

@@ -1,18 +1,29 @@
+"use client"
+
 import { GlobalContextProps, useGlobalState } from '@/context/GlobalProvider';
 import formatDate from '@/utils/FormatDate';
 import React from 'react'
 import styled from 'styled-components';
+import { edit, trash } from "@/utils/Icons";
+import parse from 'html-react-parser';
+import { DeleteTask } from '@/api/task-service/TaskService';
 
 interface Props {
     title: string;
     description: string;
-    date: string;
+    date: Date;
     isCompleted: boolean;
     id: string;
 }
 
 const TaskItem = ({ title, description, date, isCompleted, id }: Props) => {
     const { theme } = useGlobalState() as GlobalContextProps;
+
+    const deleteTask=(e: React.MouseEvent<HTMLButtonElement>)=>{
+      e.preventDefault();
+
+      DeleteTask(id).then((res)=>console.log(res))
+    }
     
     return (
       <TaskItemStyled theme={theme}>
@@ -49,14 +60,12 @@ const TaskItem = ({ title, description, date, isCompleted, id }: Props) => {
               Incomplete
             </button>
           )}
-          <button className="edit"></button>
+          <button className="edit">{parse(edit)}</button>
           <button
             className="delete"
-            onClick={() => {
-              
-            }}
+            onClick={deleteTask}
           >
-            
+            {parse(trash)}
           </button>
         </div>
       </TaskItemStyled>
