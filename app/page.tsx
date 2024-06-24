@@ -1,5 +1,5 @@
 import { Tasks } from "@/components";
-import CreateContent from "@/components/CreateContent";
+import { GlobalContextProps, useGlobalState } from "@/context/GlobalProvider";
 import React from "react";
 
 export default function Home() {
