@@ -7,11 +7,13 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import menu from '@/utils/Menu';
 import parse from 'html-react-parser';
+import { UserButton, useUser } from '@clerk/nextjs';
 
 const Sidebar = () => {
   const {theme}=useGlobalState() as GlobalContextProps;
 
-  const { firstName, lastName, imageUrl } = {
+  const { user } = useUser();
+  const { firstName, lastName, imageUrl } = user||{
     firstName: "",
     lastName: "",
     imageUrl: "",
@@ -34,7 +36,7 @@ const Sidebar = () => {
           <Image width={70} height={70} src={imageUrl} alt="profile" />
         </div>
         <div className="user-btn absolute z-20 top-0 w-full h-full">
-          
+          <UserButton />
         </div>
         <h1 className="capitalize">
           {firstName} {lastName}
@@ -118,6 +120,12 @@ const SidebarStyled = styled.nav`
       .cl-userButtonBox {
         width: 100%;
         height: 100%;
+
+        .cl-avatarBox{
+          position:absolute;
+          top:7%;
+          left:0;
+        }
 
         .cl-userButtonTrigger {
           width: 100%;

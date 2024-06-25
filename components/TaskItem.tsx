@@ -6,7 +6,6 @@ import React from 'react'
 import styled from 'styled-components';
 import { edit, trash } from "@/utils/Icons";
 import parse from 'html-react-parser';
-import { DeleteTask } from '@/api/task-service/TaskService';
 
 interface Props {
     title: string;
@@ -17,13 +16,7 @@ interface Props {
 }
 
 const TaskItem = ({ title, description, date, isCompleted, id }: Props) => {
-    const { theme } = useGlobalState() as GlobalContextProps;
-
-    const deleteTask=(e: React.MouseEvent<HTMLButtonElement>)=>{
-      e.preventDefault();
-
-      DeleteTask(id).then((res)=>console.log(res))
-    }
+    const { theme, deleteTask } = useGlobalState() as GlobalContextProps;
     
     return (
       <TaskItemStyled theme={theme}>
@@ -63,7 +56,11 @@ const TaskItem = ({ title, description, date, isCompleted, id }: Props) => {
           <button className="edit">{parse(edit)}</button>
           <button
             className="delete"
-            onClick={deleteTask}
+            onClick={(event: React.MouseEvent<HTMLButtonElement>)=>{
+              event.preventDefault();
+              
+              deleteTask(id)
+            }}
           >
             {parse(trash)}
           </button>

@@ -13,7 +13,8 @@ interface Props {
 export interface GlobalContextProps{
     theme:any,
     tasks:TaskItem[],
-    isLoading:boolean
+    isLoading:boolean,
+    deleteTask: (id:string) => Promise<void>;
 }
 
 interface GlobalUpdateContext{
@@ -30,13 +31,21 @@ export const GlobalProvider =({children}:Props)=>{
     const { user } = useUser();
 
     const theme = themes[selectedTheme];
-    const [tasks] = useState<TaskItem[]>([]);
-    const [isLoading] = useState(false);
+    const [tasks, setTasks] = useState<TaskItem[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const [globalContextProps, setGlobalContextProps]=useState<GlobalContextProps>({theme, tasks, isLoading});
+    const deleteTask=async (id:string): Promise<void> =>{
+        setIsLoading(true);
 
-    const allTasks = async () => {
-        setGlobalContextProps({...globalContextProps, isLoading:true});
+        await DeleteTask(id).then((res)=>{
+            const result=tasks.filter(task=>task.id!==id);
+            setTasks(result);
+            setIsLoading(false);
+        })
+    }
+
+    const allTasks = async () :Promise<void>=> {
+        setIsLoading(true);
 
         await GetAllTask().then(res=>{
             const responseObj:ApiReponse={
@@ -52,20 +61,19 @@ export const GlobalProvider =({children}:Props)=>{
                 title:item.Title             
             }))
 
-            setGlobalContextProps({...globalContextProps, isLoading:false, tasks:result});
+            setTasks(result);
+            setIsLoading(false);
         });
     };
 
-    const deleteTask=async (id:string)=>{
-        await DeleteTask(id).then((res)=>console.log(res))
-    }
-
     React.useEffect(() => {
-        if (user) allTasks();
+        if (user) {
+            allTasks();
+        };
     }, [user]);
     
     return(
-        <GlobalContext.Provider value={globalContextProps}>
+        <GlobalContext.Provider value={{theme, tasks, isLoading, deleteTask}}>
             <GlobalUpdateContext.Provider value={{}}>
                 {children}
             </GlobalUpdateContext.Provider>
