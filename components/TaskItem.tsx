@@ -6,6 +6,7 @@ import React from 'react'
 import styled from 'styled-components';
 import { edit, trash } from "@/utils/Icons";
 import parse from 'html-react-parser';
+import LoadingPage from './LoadingPage';
 
 interface Props {
     title: string;
@@ -16,24 +17,22 @@ interface Props {
 }
 
 const TaskItem = ({ title, description, date, isCompleted, id }: Props) => {
-    const { theme, deleteTask } = useGlobalState() as GlobalContextProps;
+    const { theme, isLoadingItem, idTaskItem,deleteTask, updateTask } = useGlobalState() as GlobalContextProps;
     
     return (
       <TaskItemStyled theme={theme}>
-        <h1>{title}</h1>
+        {isLoadingItem && id===idTaskItem ? (<LoadingPage></LoadingPage>):
+        (<><h1>{title}</h1>
         <p>{description}</p>
         <p className="date">{formatDate(date)}</p>
         <div className="task-footer">
           {isCompleted ? (
             <button
               className="completed"
-              onClick={() => {
-                const task = {
-                  id,
-                  isCompleted: !isCompleted,
-                };
-  
+              onClick={(event: React.MouseEvent<HTMLButtonElement>)=>{
+                event.preventDefault();
                 
+                updateTask(id, !isCompleted)
               }}
             >
               Completed
@@ -41,13 +40,10 @@ const TaskItem = ({ title, description, date, isCompleted, id }: Props) => {
           ) : (
             <button
               className="incomplete"
-              onClick={() => {
-                const task = {
-                  id,
-                  isCompleted: !isCompleted,
-                };
-  
+              onClick={(event: React.MouseEvent<HTMLButtonElement>)=>{
+                event.preventDefault();
                 
+                updateTask(id, !isCompleted)
               }}
             >
               Incomplete
@@ -65,6 +61,7 @@ const TaskItem = ({ title, description, date, isCompleted, id }: Props) => {
             {parse(trash)}
           </button>
         </div>
+        </>)}
       </TaskItemStyled>
     );
 }

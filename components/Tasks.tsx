@@ -8,20 +8,18 @@ import LoadingPage from './LoadingPage';
 import parse from 'html-react-parser';
 import { add, plus } from '@/utils/Icons';
 import CreateContent from './CreateContent';
+import Modal from './Modal';
 
 interface Props {
   title: string;
 }
 
 const Tasks = ({ title}: Props) => {
-  const { tasks, isLoading, theme } = useGlobalState() as GlobalContextProps;
-
-  console.log(tasks)
+  const { tasks, isLoading, theme, modal, openModal } = useGlobalState() as GlobalContextProps;
 
     return (
     <TaskStyled theme={theme}>
-      <CreateContent></CreateContent>
-
+      {modal && <Modal content={<CreateContent />} />}
       <h1>{title}</h1>
 
       {isLoading?(<LoadingPage></LoadingPage>):
@@ -42,7 +40,7 @@ const Tasks = ({ title}: Props) => {
               id={task.id}
               />
           ))}
-          <button className="create-task" >
+          <button className="create-task" onClick={openModal}>
               {parse(add)}
               Add New Task
           </button>

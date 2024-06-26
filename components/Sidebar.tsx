@@ -26,8 +26,6 @@ const Sidebar = () => {
     router.push(link);
   };
 
-  const parser = new DOMParser();
-
   return (
     <SidebarStyled theme={theme}>
       <div className="profile">
